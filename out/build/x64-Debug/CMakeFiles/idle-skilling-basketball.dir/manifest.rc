@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/Users/dybas/source/repos/idle-skilling-basketball/out/build/x64-Debug/CMakeFiles/idle-skilling-basketball.dir/embed.manifest"
