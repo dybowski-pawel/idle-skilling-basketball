@@ -20,36 +20,48 @@
 # Created by pawel on 14.09.22.
 #
 
-
-cmake_minimum_required(VERSION 3.15.2)
-
 SET("project" idle-skilling-basketball)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+cmake_minimum_required(VERSION 3.15.2)
 
 project("${project}")
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
-include_directories(include)
+add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+
+SET("OpenCV_BASE_DIR" "${PROJECT_SOURCE_DIR}/dependencies/OpenCV-4.5.4")
+SET("OpenCV_DIR" "${OpenCV_BASE_DIR}/build")
+SET("OpenCV_SRC_DIR" "${OpenCV_BASE_DIR}/sources")
+SET("OpenCV_INCLUDE_DIR" "${OpenCV_SRC_DIR}/include")
+
+find_package(OpenCV REQUIRED)
 
 SET(source_Files
         src/main.cpp
         src/Version.cpp
+        #        src/ScreenShot.cpp
         )
 
-include_directories(include)
-
-add_executable("${project}"
-        ${source_Files}
+SET(include_Files
+        include
+        ${OpenCV_INCLUDE_DIRS}
         )
-        
-target_link_libraries("${project}" ${OpenCV_LIBS} )
 
-SET("OpenCV_DIR" "${PROJECT_SOURCE_DIR}/dependencies/OpenCV-4.5.4/build")
+SET(link_Libraries
+        ${OpenCV_LIBS}
+        )
 
-find_package(OpenCV REQUIRED)
-include_directories( ${OpenCV_INCLUDE_DIRS} )
+include_directories(${include_Files})
 
+add_executable("${project}" ${source_Files})
+
+target_link_libraries("${project}" ${link_Libraries})
+
+message(STATUS "PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}")
 message(STATUS "OpenCV_DIR: ${OpenCV_DIR}")
-message(STATUS "OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "OpenCV_SRC_DIR: ${OpenCV_SRC_DIR}")
+message(STATUS "OpenCV_INCLUDE_DIR: ${OpenCV_INCLUDE_DIR}")
 message(STATUS "OpenCV_LIBS: ${OpenCV_LIBS}")
