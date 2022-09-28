@@ -32,7 +32,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 
-SET("OpenCV_BASE_DIR" "C:/Users/dybas/source/OpenCV-4.6.0")
+SET("OpenCV_BASE_DIR" "${PROJECT_SOURCE_DIR}/../../OpenCV-4.6.0")
 SET("OpenCV_DIR" "${OpenCV_BASE_DIR}/mingw-build")
 SET("OpenCV_SRC_DIR" "${OpenCV_BASE_DIR}/sources")
 SET("OpenCV_INCLUDE_DIR" "${OpenCV_SRC_DIR}/include")
