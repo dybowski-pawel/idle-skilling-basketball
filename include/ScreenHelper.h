@@ -1,6 +1,6 @@
-//    This file is part of Examples repository by Pawe≥ Dybowski.
+//    This file is part of Examples repository by Pawe≈Ç Dybowski.
 //
-//    Copyright (C) 2021 Pawe≥ Dybowski <dybowski015 at gmail dot com>
+//    Copyright (C) 2020 Pawe≈Ç Dybowski <dybowski015 at gmail dot com>
 //    https://github.com/dybowski-pawel/coding-examples
 //
 //    Examples is free software: you can redistribute it and/or modify
@@ -17,15 +17,38 @@
 //    along with Examples.  If not, see <https://www.gnu.org/licenses/>.
 
 //
-// Created by pawel on 14.09.22.
+// Created by dybas on 28.09.2022.
 //
 
-#include <utility>
+#ifndef IDLE_SKILLING_BASKETBALL_SCREENHELPER_H
+#define IDLE_SKILLING_BASKETBALL_SCREENHELPER_H
 
-#include "Screenshot.h"
+#include <Windows.h>
+#include <opencv2/opencv.hpp>
+
+#include "ScreenShot.h"
+
+class ScreenHelper {
+public:
+
+    ScreenHelper();
+
+    ~ScreenHelper();
+
+    ScreenShot CaptureWholeScreen();
+
+    ScreenShot CaptureScreen(cv::Point2i from, cv::Point2i to);
+
+private:
+
+    cv::Size GetScreenSize();
+
+    static BITMAPINFOHEADER createBitmapHeader(cv::Size size);
+
+    HWND hwnd;
+    HDC hwindowDC;
+    HDC hwindowCompatibleDC;
+};
 
 
-
-
-
-
+#endif //IDLE_SKILLING_BASKETBALL_SCREENHELPER_H

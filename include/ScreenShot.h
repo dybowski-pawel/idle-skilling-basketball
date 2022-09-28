@@ -23,29 +23,16 @@
 #ifndef EXAMPLES_SCREENSHOT_H
 #define EXAMPLES_SCREENSHOT_H
 
-#include <Windows.h>
+#include <chrono>
+
 #include <opencv2/opencv.hpp>
 
-class ScreenShot {
+struct ScreenShot {
 
-	static HWND GetSystemDesktopWindow();
-	
-	static cv::Size GetScreenSize();
+    ScreenShot(cv::Mat image, std::chrono::time_point timestamp) : image(image), timestamp(timestamp) {}
 
-	static cv::Mat CaptureScreen(HWND hwnd, cv::Point2i startPoint, cv::Point2i endPoint);
-
-	static cv::Point FindImageInImage(cv::Mat source, std::string imageToFind);
-
-	static void SaveImage(cv::Mat source, std::string path);
-
-private:
-
-	static std::string GetDataPath();
-
-	static BITMAPINFOHEADER createBitmapHeader(cv::Size size);
-
-	ScreenShot() = delete;
-
+    cv::Mat image;
+    std::chrono::time_point timestamp;
 };
 
 #endif //EXAMPLES_SCREENSHOT_H
