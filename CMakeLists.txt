@@ -44,7 +44,8 @@ SET(source_Files
         src/Version.cpp
         src/ScreenShot.cpp
         src/ImageHelper.cpp
-        src/ScreenHelper.cpp)
+        src/ScreenHelper.cpp
+        )
 
 SET(include_Files
         include
