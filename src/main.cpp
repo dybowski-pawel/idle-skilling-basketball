@@ -25,5 +25,9 @@
 #include <opencv2/core.hpp>
 
 int main(int argc, const char* argv[]) {
+
 	std::cout << "Version: " << dbs::Version::GetVersion() << std::endl;
+
+    return 0;
+
 }

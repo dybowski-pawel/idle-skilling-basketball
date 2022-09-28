@@ -29,10 +29,10 @@
 
 struct ScreenShot {
 
-    ScreenShot(cv::Mat image, std::chrono::time_point timestamp) : image(image), timestamp(timestamp) {}
+    ScreenShot(cv::Mat image, std::chrono::system_clock::time_point timestamp) : image(image), timestamp(timestamp) {}
 
     cv::Mat image;
-    std::chrono::time_point timestamp;
+    std::chrono::system_clock::time_point timestamp;
 };
 
 #endif //EXAMPLES_SCREENSHOT_H

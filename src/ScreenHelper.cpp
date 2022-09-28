@@ -38,7 +38,7 @@ ScreenHelper::~ScreenHelper() {
 }
 
 ScreenShot ScreenHelper::CaptureWholeScreen() {
-    CaptureScreen({0,0}, GetScreenSize());
+    return CaptureScreen({0,0}, GetScreenSize());
 }
 
 ScreenShot ScreenHelper::CaptureScreen(cv::Point2i startPoint, cv::Point2i endPoint) {
