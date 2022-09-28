@@ -31,6 +31,10 @@ dbs::Thread::Thread(unsigned long numberOfLoops, bool startImmediately, unsigned
     }
 }
 
+dbs::Thread::~Thread() {
+    StopAndWait();
+}
+
 bool dbs::Thread::Start() {
     if (IsStarted()) {
         if (IsDone()) {
@@ -40,7 +44,7 @@ bool dbs::Thread::Start() {
         }
     }
     std::unique_lock<std::mutex> lock(mutex_);
-    thread_ = new std::thread(&Thread::operator(), this);
+    thread_ = std::make_unique<std::thread>(&Thread::operator(), this);
     started_ = true;
     return true;
 }
@@ -88,7 +92,7 @@ bool dbs::Thread::WaitUntilDone() {
 void dbs::Thread::CleanUp() {
     std::unique_lock<std::mutex> lock(mutex_);
     thread_->join();
-    delete thread_;
+    thread_.reset();
     started_ = false;
     stopRequested_ = false;
     pauseRequested_ = false;
@@ -127,15 +131,11 @@ void dbs::Thread::operator()() {
     while (!IsStopRequested() && (loop_count_ == 0 || loops_done < loop_count_)) {
         if (IsPaused()) {
             if (IsResumeRequested()) {
-                std::unique_lock<std::mutex> lock(mutex_);
-                paused_ = false;
-                resumeRequested_ = false;
+                SetResumed();
             }
         } else {
             if (IsPauseRequested()) {
-                std::unique_lock<std::mutex> lock(mutex_);
-                paused_ = true;
-                pauseRequested_ = false;
+                SetPaused();
             } else {
                 Loop();
                 if (loop_count_ > 0) {

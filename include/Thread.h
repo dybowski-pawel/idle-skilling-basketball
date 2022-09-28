@@ -48,6 +48,11 @@ namespace dbs {
                         unsigned long timeoutInMilliseconds = 10);
 
         /*******************************************************************************
+         * Destructor of Thread class
+         ******************************************************************************/
+         ~Thread();
+
+        /*******************************************************************************
          * Start new thread if none is already running
          * If thread is already running, false will be returned
          *
@@ -218,11 +223,6 @@ namespace dbs {
     protected:
 
         /*******************************************************************************
-         * Main methods that will be used for threading
-         ******************************************************************************/
-        void operator()();
-
-        /*******************************************************************************
          * Method that will be called before loop starts
          * If you need to set/clean some variables on each start - that's a good place to do it
          *
@@ -246,12 +246,37 @@ namespace dbs {
          ******************************************************************************/
         virtual void DeInit() {};
 
+    private:
+
+        /*******************************************************************************
+         * Main methods that will be used for threading
+         ******************************************************************************/
+        void operator()();
+
         /*******************************************************************************
          * Sets ready status to true
          ******************************************************************************/
         inline void SetReady() {
             std::unique_lock<std::mutex> lock(mutex_);
             ready_ = true;
+        }
+
+        /*******************************************************************************
+         * Sets paused state
+         ******************************************************************************/
+        inline void SetPaused() {
+            std::unique_lock<std::mutex> lock(mutex_);
+            paused_ = true;
+            pauseRequested_ = false;
+        }
+
+        /*******************************************************************************
+         * Sets resumed state
+         ******************************************************************************/
+        inline void SetResumed() {
+            std::unique_lock<std::mutex> lock(mutex_);
+            paused_ = false;
+            resumeRequested_ = false;
         }
 
         /*******************************************************************************
@@ -274,7 +299,7 @@ namespace dbs {
         std::atomic_ulong loop_count_;
 
         std::mutex mutex_;
-        std::thread *thread_{nullptr};
+        std::unique_ptr<std::thread> thread_{nullptr};
 
     };
 
