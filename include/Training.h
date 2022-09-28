@@ -20,40 +20,45 @@
 // Created by dybas on 28.09.2022.
 //
 
-#ifndef IDLE_SKILLING_BASKETBALL_IMAGEHELPER_H
-#define IDLE_SKILLING_BASKETBALL_IMAGEHELPER_H
+#ifndef IDLE_SKILLING_BASKETBALL_TRAINING_H
+#define IDLE_SKILLING_BASKETBALL_TRAINING_H
 
-#include <opencv2/opencv.hpp>
+#include "Thread.h"
+#include "ScreenHelper.h"
+#include "ImageHelper.h"
 
-class ImageHelper {
+class Training : public dbs::Thread {
 
-public:
-    ImageHelper();
-
-    static void SaveImage(const cv::Mat& source, const std::string& path);
-
-    std::pair<cv::Point, cv::Point> FindGameWindow(const cv::Mat& source);
-
-    cv::Point FindLavaFigure(const cv::Mat& source);
-
-    cv::Point FindBall(const cv::Mat& source);
-
-    cv::Point FindBoard(const cv::Mat& source);
+protected:
+    void Loop() override;
 
 private:
 
-    static cv::Point FindImageInImage(const cv::Mat& source, const cv::Mat& imageToFind);
+    void FindGameWindow();
+    void FindLavaFigure();
+    void FindBall();
+    void SaveResult();
 
-    static cv::Mat LoadImage(const std::string & name);
+    enum class State {
+        FIND_GAME_WINDOW,
+        FIND_LAVA_FIGURE,
+        FIND_BALL,
+        SAVE_RESULT,
+        EXIT
+    };
 
-    static std::string GetDataPath();
+    ScreenHelper screenHelper_;
+    ImageHelper imageHelper_;
+    State trainingState_ {State::FIND_GAME_WINDOW};
 
-    const cv::Mat board;
-    const cv::Mat exit;
-    const cv::Mat lava;
-    const cv::Mat logo;
+    cv::Point gameWindowStart_, gameWindowEnd_;
 
+    cv::Point lastLavaPosition_;
+
+    static bool isNullPoint(const cv::Point & point);
+
+    static cv::Point nullPoint;
 };
 
 
-#endif //IDLE_SKILLING_BASKETBALL_IMAGEHELPER_H
+#endif //IDLE_SKILLING_BASKETBALL_TRAINING_H

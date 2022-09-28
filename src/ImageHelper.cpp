@@ -33,6 +33,11 @@ cv::Point ImageHelper::FindLavaFigure(const cv::Mat& source) {
     return FindImageInImage(source, lava);
 }
 
+cv::Point ImageHelper::FindBall(const cv::Mat& source) {
+    //todo:: Needs to be implemented
+    return {};
+}
+
 cv::Point ImageHelper::FindBoard(const cv::Mat& source) {
     return FindImageInImage(source, board);
 }

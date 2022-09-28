@@ -45,6 +45,8 @@ SET(source_Files
         src/ScreenShot.cpp
         src/ImageHelper.cpp
         src/ScreenHelper.cpp
+        src/Training.cpp
+        src/Thread.cpp
         )
 
 SET(include_Files
