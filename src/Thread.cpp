@@ -85,6 +85,7 @@ bool dbs::Thread::WaitUntilDone() {
         while (!IsDone()) {
             Sleep();
         }
+        return true;
     }
 }
 
